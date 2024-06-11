@@ -18,15 +18,11 @@ body {
 }
 
 header {
-    max-height: 150px;
-    border: 1px solid red;
+    height: 160px;
+    padding: 0 150px;
     display: flex;
     justify-content: space-between;
-}
-
-#logo {
-    padding-top: 50px;
-    padding-left: 150px;
+    align-items: center;
 }
 
 #logo > img {
@@ -72,4 +68,39 @@ main {
     height: 20vh;
     bottom: 0;
     margin: auto;
+    color: #ffffff;
+}
+
+
+/* COUNTDOWN */
+#countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+#countdownNumber {
+    color: rgb(0, 204, 255);
+    position: absolute;
+}
+  
+svg {
+    width: 160px;
+    height: 160px;
+    transform: rotateY(-180deg) rotateZ(-900deg);
+}
+
+svg circle {
+    stroke-dasharray: 250px;
+    stroke-dashoffset: 0px;
+    stroke-linecap: round;
+    stroke-width: 10;
+    stroke: rgb(0, 204, 255);
+    fill: none;
+    animation: countdown 59s linear infinite forwards;
+}
+  
+@keyframes countdown {
+    from {stroke-dashoffset: 0%;}
+    to {stroke-dashoffset: 100%;}
 }

@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
 
 * {
     margin: 0;
@@ -18,11 +20,11 @@ body {
 }
 
 header {
-    height: 160px;
-    padding: 0 150px;
+    padding: 50px 150px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 300px;
 }
 
 #logo > img {
@@ -38,16 +40,17 @@ main {
 }
 
 #top {
-    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 4;
 }
 
 #question > h2 {
     color: white;
     padding: 50px;
+    font-size: 30px;
 }
 
 #answers {
@@ -65,42 +68,66 @@ main {
 }
 
 #bottom {
-    height: 20vh;
+    flex: 1;
+    display: flex;
+    align-items: center;
     bottom: 0;
     margin: auto;
     color: #ffffff;
 }
 
 
-/* COUNTDOWN */
-#countdown {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* NEW COUNTDOWN */
+@property --a {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 360deg;
+  }
+#counter{
+    --a:360deg;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    transition:--a 0s linear;
+    background: conic-gradient(#00ffff var(--a) ,#00ffff 0deg ,#585862d5 0deg,#585862d5 360deg);
+    animation: animations 2s linear 1 forward;
 }
-  
-#countdownNumber {
-    color: rgb(0, 204, 255);
+#counter::before{
     position: absolute;
-}
-  
-svg {
-    width: 160px;
-    height: 160px;
-    transform: rotateY(-180deg) rotateZ(-900deg);
+    content: "";
+    width: 85%;
+    height: 85%;
+    background: black;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    color: #fac7c78f;
+    transform: translate(-50%,-50%);
 }
 
-svg circle {
-    stroke-dasharray: 250px;
-    stroke-dashoffset: 0px;
-    stroke-linecap: round;
-    stroke-width: 10;
-    stroke: rgb(0, 204, 255);
-    fill: none;
-    animation: countdown 59s linear infinite forwards;
+.text-counter{
+    width: 70%;
+    height: 100px;
+   color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-size:3em ;
+    transform: translate(-50%,-50%);
 }
-  
-@keyframes countdown {
-    from {stroke-dashoffset: 0%;}
-    to {stroke-dashoffset: 100%;}
+span{
+    font-size: 20px;
+    font-family: "Outfit", sans-serif;
+    font-weight: 500;
 }
+
+span.sec {
+    font-size: 60px;
+}
+
+.centred {justify-content: center!important;}

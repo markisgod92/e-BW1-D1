@@ -19,8 +19,8 @@ const questions = [
       "In the programming language Java, which of these keywords would you put on a variable to make sure it doesn't get modified?",
     correct_answer: "Final",
     incorrect_answers: [
-      "Static", 
-      "Private", 
+      "Static",
+      "Private",
       "Public"
     ],
   },
@@ -107,12 +107,22 @@ const questionBox = document.querySelector("#question h2");
 const answersBox = document.getElementById("answers");
 const bottom = document.getElementById("bottom");
 const currentQuestion = document.querySelector("#bottom span")
+const header = document.querySelector("header")
+const counter = document.querySelector("#counter")
+const counterBox = document.querySelector("#counterBox")
+const sec = document.querySelector(".sec")
 
 let currentIndex = 9;
 let counterQuestion = 1;
 let score = 0;
 
+let interval;
+let num = 360;
+let duration = 59;
+
 function createQuestion() {
+  countdownReset();
+  countdown();
   answersBox.innerHTML = "";
   questionBox.innerText = questions[currentIndex].question;
   currentQuestion.innerText = counterQuestion;
@@ -137,12 +147,14 @@ function checkAnswer(answer) {
     counterQuestion++;
   }
 
-  if (currentIndex < questions.length){
+  if (currentIndex < questions.length) {
     createQuestion();
   } else {
     questionBox.innerText = `Hai totalizzato un punteggio di ${score} su 10`;
     bottom.innerHTML = "";
     answersBox.innerHTML = "";
+    counterBox.innerHTML = "";
+    header.classList.add("centred")
   }
 }
 
@@ -154,14 +166,36 @@ function shuffleArray(array) {
   return array;
 }
 
+function countdown() {
+  interval = setInterval(() => {
+    if (duration >= 0) {
+      if (duration < 10) {
+        sec.textContent = `0${(duration)}`
+      }
+      else {
+        sec.textContent = `${(duration)}`
+      }
+      counter.style.setProperty("--a", num + "deg")
+      const a = counter.style.getPropertyValue("--a");
+      counter.style.background = ` conic-gradient(#00ffff var(--a) ,#00ffff 0deg ,#585862d5 0deg,#585862d5 360deg)`
+      num = num - (num / duration);
+      duration--;
+    }
+    else {
+      clearInterval(interval);
+      currentIndex++;
+      counterQuestion++;
+      createQuestion();
+    }
+  }, 1000)
+}
+
+function countdownReset() {
+  num = 360;
+  duration = 59;
+  clearInterval(interval)
+  counter.style.setProperty("--a", num + "deg")
+  counter.style.background = ` conic-gradient(#00ffff var(--a) ,#00ffff 0deg ,#585862d5 0deg,#585862d5 360deg)`
+}
+
 createQuestion();
-
-let countdownNumber = document.getElementById("countdownNumber");
-let countdown = 59;
-
-countdownNumber.textContent = countdown;
-
-setInterval(function() {
-    countdown = countdown-- <= 0 ? 10 : countdown;
-    countdownNumber.textContent = countdown;
-}, 1000);

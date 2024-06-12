@@ -11,13 +11,15 @@
         <div id="logo">
             <img src="assets/epicode_logo.png" alt="epicode logo">
         </div>
-        <div id="countdown">
-            <svg>
-                <circle r="40" cx="80" cy="80"></circle>
-                <text></text>
-            </svg>
-            <div id="countdownNumber">seconds</div>
-        </div>
+        <span id="counterBox">
+            <div id="counter">
+                <div class="text-counter">
+                    <span>Seconds</span>
+                    <span class="sec">60</span>
+                    <span>remaining</span>
+                </div>
+            </div>
+        </span>
     </header>
     <main>
         <section id="top">
@@ -26,7 +28,7 @@
             </div>
             <div id="answers"></div>
         </section>
-        <section id="bottom">Question <span></span>/30</section>
+        <section id="bottom">Question&nbsp;<span></span>&nbsp;/ 10</section>
     </main>
     <script src="script.js"></script>
 </body>

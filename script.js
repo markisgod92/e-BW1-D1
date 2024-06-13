@@ -112,7 +112,7 @@ const counter = document.querySelector("#counter")
 const counterBox = document.querySelector("#counterBox")
 const sec = document.querySelector(".sec")
 
-let currentIndex = 9;
+let currentIndex = 0;
 let counterQuestion = 1;
 let score = 0;
 
@@ -121,20 +121,28 @@ let num = 360;
 let duration = 59;
 
 function createQuestion() {
-  countdownReset();
-  countdown();
-  answersBox.innerHTML = "";
-  questionBox.innerText = questions[currentIndex].question;
-  currentQuestion.innerText = counterQuestion;
-  const answers = questions[currentIndex].incorrect_answers.concat(questions[currentIndex].correct_answer);
-  shuffleArray(answers);
+  if (currentIndex < questions.length) {
+    countdownReset();
+    countdown();
+    answersBox.innerHTML = "";
+    questionBox.innerText = questions[currentIndex].question;
+    currentQuestion.innerText = counterQuestion;
+    const answers = questions[currentIndex].incorrect_answers.concat(questions[currentIndex].correct_answer);
+    shuffleArray(answers);
 
-  answers.forEach(answer => {
-    const answerButton = document.createElement("button");
-    answerButton.innerText = answer;
-    answerButton.addEventListener("click", () => checkAnswer(answer))
-    answersBox.appendChild(answerButton)
-  })
+    answers.forEach(answer => {
+      const answerButton = document.createElement("button");
+      answerButton.innerText = answer;
+      answerButton.addEventListener("click", () => checkAnswer(answer))
+      answersBox.appendChild(answerButton)
+    })
+  } else {
+    questionBox.innerText = `Hai totalizzato un punteggio di ${score} su 10`;                   // spostato da checkAnswer perchè se timer scadeva all'ultima domanda non spariva
+    bottom.innerHTML = "";
+    answersBox.innerHTML = "";
+    counterBox.innerHTML = "";
+    header.classList.add("centred")
+  }
 }
 
 function checkAnswer(answer) {
@@ -146,16 +154,7 @@ function checkAnswer(answer) {
     currentIndex++;
     counterQuestion++;
   }
-
-  if (currentIndex < questions.length) {
-    createQuestion();
-  } else {
-    questionBox.innerText = `Hai totalizzato un punteggio di ${score} su 10`;
-    bottom.innerHTML = "";
-    answersBox.innerHTML = "";
-    counterBox.innerHTML = "";
-    header.classList.add("centred")
-  }
+  createQuestion();
 }
 
 function shuffleArray(array) {
@@ -177,7 +176,7 @@ function countdown() {
       }
       counter.style.setProperty("--a", num + "deg")
       const a = counter.style.getPropertyValue("--a");
-      counter.style.background = ` conic-gradient(#00ffff var(--a) ,#00ffff 0deg ,#585862d5 0deg,#585862d5 360deg)`
+      counter.style.background = `conic-gradient(#00ffff var(--a), #00ffff 0deg, #585862d5 0deg, #585862d5 360deg)`
       num = num - (num / duration);
       duration--;
     }
@@ -193,9 +192,10 @@ function countdown() {
 function countdownReset() {
   num = 360;
   duration = 59;
+  sec.textContent = `60`;                                                                                           // al reset mostra i secondi corretti
   clearInterval(interval)
   counter.style.setProperty("--a", num + "deg")
-  counter.style.background = ` conic-gradient(#00ffff var(--a) ,#00ffff 0deg ,#585862d5 0deg,#585862d5 360deg)`
+  counter.style.background = `conic-gradient(#00ffff var(--a), #00ffff 0deg, #585862d5 0deg, #585862d5 360deg)`
 }
 
 createQuestion();

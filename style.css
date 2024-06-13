@@ -47,6 +47,11 @@ main {
     flex: 4;
 }
 
+#question {
+    width: 50vw;
+    text-align: center;
+}
+
 #question > h2 {
     color: white;
     padding: 50px;
@@ -82,28 +87,22 @@ main {
     syntax: '<angle>';
     inherits: false;
     initial-value: 360deg;
-  }
+}
+
+#counterBox {
+    position: relative;
+}
+
 #counter{
     --a:360deg;
-    position: relative;
     width: 200px;
     height: 200px;
     border-radius: 50%;
     transition:--a 0s linear;
     background: conic-gradient(#00ffff var(--a) ,#00ffff 0deg ,#585862d5 0deg,#585862d5 360deg);
+    mask: radial-gradient(circle, transparent 60%, black 61%);
+    -webkit-mask: radial-gradient(circle, transparent 60%, black 61%);
     animation: animations 2s linear 1 forward;
-}
-#counter::before{
-    position: absolute;
-    content: "";
-    width: 85%;
-    height: 85%;
-    background: black;
-    border-radius: 50%;
-    left: 50%;
-    top: 50%;
-    color: #fac7c78f;
-    transform: translate(-50%,-50%);
 }
 
 .text-counter{

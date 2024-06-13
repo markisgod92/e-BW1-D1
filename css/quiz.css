@@ -13,7 +13,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-image: url(assets/bg.jpg);
+    background-image: url(../assets/bg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     font-family: "Inter", sans-serif;
@@ -54,7 +54,7 @@ main {
 
 #question > h2 {
     color: white;
-    padding: 50px;
+    padding: 0 50px 60px;
     font-size: 30px;
 }
 
@@ -65,20 +65,32 @@ main {
 }
 
 #answers > button {
+    color: #ffffff;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: bold;
     padding: 20px;
     width: 300px;
-    height: 50px;
-    border-radius: 30px;
+    border-radius: 40px;
     font-family: "Inter", sans-serif;
+    background-color: #66666660;
+    cursor: pointer;
+    border: 2px solid #00ffff;
+}
+
+#answers > button:hover {
+    background: linear-gradient(#D20094, #900080);
 }
 
 #bottom {
     flex: 1;
     display: flex;
+    gap: 10px;
     align-items: center;
     bottom: 0;
     margin: auto;
     color: #ffffff;
+    letter-spacing: 1px;
 }
 
 
@@ -127,6 +139,10 @@ span{
 
 span.sec {
     font-size: 60px;
+}
+
+#bottom span:last-child {
+    color:#900080;
 }
 
 .centred {justify-content: center!important;}

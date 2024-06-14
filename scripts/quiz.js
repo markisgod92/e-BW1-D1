@@ -1,116 +1,17 @@
-const questions = [
-  {
-    category: "Science: Computers",
-    type: "multiple",
-    difficulty: "easy",
-    question: "What does CPU stand for?",
-    correct_answer: "Central Processing Unit",
-    incorrect_answers: [
-      "Central Process Unit",
-      "Computer Personal Unit",
-      "Central Processor Unit",
-    ],
-  },
-  {
-    category: "Science: Computers",
-    type: "multiple",
-    difficulty: "easy",
-    question:
-      "In the programming language Java, which of these keywords would you put on a variable to make sure it doesn't get modified?",
-    correct_answer: "Final",
-    incorrect_answers: [
-      "Static",
-      "Private",
-      "Public"
-    ],
-  },
-  {
-    category: "Science: Computers",
-    type: "boolean",
-    difficulty: "easy",
-    question: "The logo for Snapchat is a Bell.",
-    correct_answer: "False",
-    incorrect_answers: ["True"],
-  },
-  {
-    category: "Science: Computers",
-    type: "boolean",
-    difficulty: "easy",
-    question:
-      "Pointers were not used in the original C programming language; they were added later on in C++.",
-    correct_answer: "False",
-    incorrect_answers: ["True"],
-  },
-  {
-    category: "Science: Computers",
-    type: "multiple",
-    difficulty: "easy",
-    question:
-      "What is the most preferred image format used for logos in the Wikimedia database?",
-    correct_answer: ".svg",
-    incorrect_answers: [".png", ".jpeg", ".gif"],
-  },
-  {
-    category: "Science: Computers",
-    type: "multiple",
-    difficulty: "easy",
-    question: "In web design, what does CSS stand for?",
-    correct_answer: "Cascading Style Sheet",
-    incorrect_answers: [
-      "Counter Strike: Source",
-      "Corrective Style Sheet",
-      "Computer Style Sheet",
-    ],
-  },
-  {
-    category: "Science: Computers",
-    type: "multiple",
-    difficulty: "easy",
-    question:
-      "What is the code name for the mobile operating system Android 7.0?",
-    correct_answer: "Nougat",
-    incorrect_answers: [
-      "Ice Cream Sandwich",
-      "Jelly Bean",
-      "Marshmallow",
-    ],
-  },
-  {
-    category: "Science: Computers",
-    type: "multiple",
-    difficulty: "easy",
-    question: "On Twitter, what is the character limit for a Tweet?",
-    correct_answer: "140",
-    incorrect_answers: ["120", "160", "100"],
-  },
-  {
-    category: "Science: Computers",
-    type: "boolean",
-    difficulty: "easy",
-    question: "Linux was first created as an alternative to Windows XP.",
-    correct_answer: "False",
-    incorrect_answers: ["True"],
-  },
-  {
-    category: "Science: Computers",
-    type: "multiple",
-    difficulty: "easy",
-    question:
-      "Which programming language shares its name with an island in Indonesia?",
-    correct_answer: "Java",
-    incorrect_answers: ["Python", "C", "Jakarta"],
-  },
-];
+
 
 
 const questionBox = document.querySelector("#question h2");
 const answersBox = document.getElementById("answers");
+const answersResult = document.querySelector("#answersResult table")
 const bottom = document.getElementById("bottom");
 const currentQuestion = document.getElementById("currentQuestion")
 const header = document.querySelector("header")
 const counter = document.querySelector("#counter")
 const counterBox = document.querySelector("#counterBox")
 const sec = document.querySelector(".sec")
+
+const answersArray = [];
 
 let currentIndex = 0;
 let counterQuestion = 1;
@@ -123,7 +24,7 @@ let duration = 59;
 function createQuestion() {
   if (currentIndex < questions.length) {
     countdownReset();
-    countdown();
+    countdown(questions[currentIndex]);
     answersBox.innerHTML = "";
     questionBox.innerText = questions[currentIndex].question;
     currentQuestion.innerText = counterQuestion;
@@ -137,22 +38,22 @@ function createQuestion() {
       answersBox.appendChild(answerButton)
     })
   } else {
-    questionBox.innerText = `Hai totalizzato un punteggio di ${score} su 10`;                   // spostato da checkAnswer perchè se timer scadeva all'ultima domanda non spariva
-    bottom.innerHTML = "";
-    answersBox.innerHTML = "";
-    counterBox.innerHTML = "";
-    header.classList.add("centred")
+    showResults()
   }
 }
 
 function checkAnswer(answer) {
   if (answer === questions[currentIndex].correct_answer) {
+    answersArray.push({question: questions[currentIndex].question, answer: answer, correct: true})
     score++;
     currentIndex++;
     counterQuestion++;
+    
   } else {
+    answersArray.push({question: questions[currentIndex].question, answer: answer, correct: false})
     currentIndex++;
     counterQuestion++;
+    
   }
   createQuestion();
 }
@@ -165,7 +66,7 @@ function shuffleArray(array) {
   return array;
 }
 
-function countdown() {
+function countdown(question) {
   interval = setInterval(() => {
     if (duration >= 0) {
       if (duration < 10) {
@@ -182,6 +83,7 @@ function countdown() {
     }
     else {
       clearInterval(interval);
+      answersArray.push({question: question.question, answer: "none", correct: false})
       currentIndex++;
       counterQuestion++;
       createQuestion();
@@ -192,10 +94,51 @@ function countdown() {
 function countdownReset() {
   num = 360;
   duration = 59;
-  sec.textContent = `60`;                                                                                           // al reset mostra i secondi corretti
+  sec.textContent = `60`;
   clearInterval(interval)
   counter.style.setProperty("--a", num + "deg")
   counter.style.background = `conic-gradient(#00ffff var(--a), #00ffff 0deg, #585862d5 0deg, #585862d5 360deg)`
+}
+
+function showResults() {
+  clearInterval(interval)
+  questionBox.innerText = `Hai totalizzato un punteggio di ${score} su 10`;
+  bottom.innerHTML = "";
+  answersBox.innerHTML = "";
+  counterBox.innerHTML = "";
+  header.classList.add("centred")
+
+  answersArray.forEach(element => {
+    const report = document.createElement("tr")
+    const questionReport = document.createElement("td")
+    const answerReport = document.createElement("td")
+    const correctAnswer = document.createElement("td")
+    
+    questionReport.innerText = element.question
+
+    if (element.answer === "none") {
+      answerReport.innerText = "not answered"
+      answerReport.style.color = "red"
+    } else {
+      if (element.correct === true) {
+        answerReport.innerText = element.answer
+        answerReport.style.color = "green"
+      } else {
+        answerReport.innerText = element.answer
+        answerReport.style.color = "red"
+        answerReport.style.textDecoration = "line-through"
+
+        
+        correctAnswer.innerText = questions[answersArray.indexOf(element)].correct_answer
+        correctAnswer.style.color = "yellow"
+      }
+    }
+
+    answersResult.appendChild(report)
+    report.appendChild(questionReport)
+    report.appendChild(answerReport)
+    report.appendChild(correctAnswer)
+  })
 }
 
 createQuestion();

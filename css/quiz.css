@@ -82,6 +82,21 @@ main {
     background: linear-gradient(#D20094, #900080);
 }
 
+#answersResult table {
+    border-collapse: collapse;
+    color: white;
+    margin-bottom: 50px;
+    border-spacing: 20px
+}
+#answersResult table tr {
+    border-bottom: 1px solid white;
+}
+
+#answersResult table tr td {
+    line-height: 50px;
+    vertical-align: bottom;
+}
+
 #bottom {
     flex: 1;
     display: flex;
